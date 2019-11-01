@@ -37,13 +37,13 @@ Dizi11 = np.add(Dizi1,Dizi10) # Diziyi üst üte ekler
 Dizi12 = np.square(Dizi3) # Dizi elemanlarının karesini alır
 
 
-Dizi13 = np.vstack((Dizi1,Dizi10)) # SAtır olarak ekler
-Dizi14 = np.hstack((Dizi1,Dizi10)) # Sütun olarak ekler
+Dizi13 = np.vstack((Dizi1,Dizi10)) # SAtır olarak ekler # Vertical
+Dizi14 = np.hstack((Dizi1,Dizi10)) # Sütun olarak ekler # Horizontal
 
 Dizi15 = np.column_stack((Dizi1,Dizi2)) # 3,1 bir diziyi 3,3 bir diziye sütun olarak ekler. 3,4 bir dizi elde etmemizi sağlar
 
-Dizi16 = np.vsplit(Dizi3,2) # Dizinin satırlarını 2 ye böyler
-Dizi18 = np.hsplit(Dizi3,2) # Dizinin Sütunlerini 2 ye böler
+Dizi16 = np.vsplit(Dizi3,2) # Dizinin satırlarını 2 ye böyler # Vertical
+Dizi18 = np.hsplit(Dizi3,2) # Dizinin Sütunlerini 2 ye böler # Horizontal
 
 Dizi19 = np.copy(Dizi10) # Diziyi kopyalar
 
