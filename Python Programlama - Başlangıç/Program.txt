@@ -1,0 +1,29 @@
+1- Değişkenler, yorum satırı ve Print Fonksiyonu
+2- Veri Tipleri ve Input Fonksiyonu 
+3- Veri Tür Dönüşümleri ve Aritmatik işlemler.
+4- Listeler, Tuple, Sözlük ve Sets
+5- İf Else
+6- İf Else, Or, and ve Mod alma
+7- Uygulama : Hesap Makinası
+8- Döngüler : While,break ve continue
+9- Döngüler : For 
+10- Fonksiyonlar ve Lambda
+11- Diziler ve Dizi Fonksiyonları
+12- Stringler ve String Fonksiyonları
+13- Sözlükler ve Sözlük Fonksiyonları
+14- Tuple ve Tuple Fonksinyonları
+15- Sınıflar ve Nesneler
+16- Uygulama : Arena Oyunu
+17- Kalıtım
+18- Try Except Finaly
+19- Modüller
+20- Kütüphaneler ve Kullanımı
+21- Dosya Oluşturma, Dosya Okuma, Dosyaya Yazma ve Dosya Silme
+22- İç İçe Fonksiyonlar ve Rekürsif Fonksiyonlar
+23- Decorator
+24- Iteratör
+25- Generatör
+
+
+assert yapısı,
+Sınıflarda property yapısı, Sınıflarda class ve static metodlar.
