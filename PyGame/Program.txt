@@ -1,0 +1,24 @@
+Kare Yakalam
+
+
+- Yukarıdan Düşen kareleri Yakalar.
+- Yakaladığında Ses Çıakrtır.
+- Yakalanan kareler puanlar ekler.
+- Yakalanamayan Kareler Puan Düşürür.
+- Belirli Bir Puandna Sonra Kare Hızları Artar.
+- Ard arda 10 Puan Kaybedersek oyun sonlanır.
+- Game Start Menüsü ve Butonlar
+- Game Over Menüsü ve Replay
+- Ekrana Skor Yazdırma
+
+
+FlapyBird
+
+
+- Maskeleme
+
+
+ZombieShooter
+
+- Üstten Bakışlı Zombi Öldürme oyunu
+- Silah ve Mermi.
