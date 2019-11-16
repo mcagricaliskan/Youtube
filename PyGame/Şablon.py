@@ -2,15 +2,17 @@ import pygame
 
 pygame.init()
 
-class BizimOyun():
+
+class BizimOyunumuz():
     def __init__(self):
-        self.pencere_genislik = 1280
-        self.pencere_yukseklik = 720
-        self.Pencere = pygame.display.set_mode((self.pencere_genislik,self.pencere_yukseklik))
+        self.pencere_yuksekligi = 720
+        self.pencere_genisligi = 1280
+        self.Pencere = pygame.display.set_mode((self.pencere_genisligi,self.pencere_yuksekligi))
         pygame.display.set_caption("Kare Yakalama")
         self.Clock = pygame.time.Clock()
 
-    def DrawScreen(self):
+    def Cizim(self):
+
 
         self.Clock.tick(60)
         pygame.display.update()
@@ -22,15 +24,15 @@ class BizimOyun():
                 return "Son"
 
         self.Tus = pygame.key.get_pressed()
-
         if self.Tus[pygame.K_ESCAPE]:
             return "Son"
 
-        self.DrawScreen()
+
+        self.Cizim()
 
 
-Oyun = BizimOyun()
 
+Oyun = BizimOyunumuz()
 
 while True:
     Durum = Oyun.Oyun()
