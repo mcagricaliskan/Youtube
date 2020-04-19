@@ -1,0 +1,14 @@
+Tuşlar
+Resim Yükleme Çizdirme
+Music Yükleme çaldırma
+Rect ve Çarpışma
+Maskeleme ve Çarpışma ++
+Can Barı
+Buton
+Oyun geliştirmede Fizik ( Yer Çekimi, Zıplama ) ++
+Oyun geliştirmede Trigonometri ( Açılarla Atış ve Dönüş)
+Kamera Hareketi ++
+Platform Yaratmak ++
+Düşman botları 
+Animasyon ++
+Animasyonlu Game Openning ++
