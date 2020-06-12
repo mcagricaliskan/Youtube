@@ -124,9 +124,10 @@ class BizimOyunumuz():
                     pygame.mixer.Channel(0).play(pygame.mixer.Sound("Ses/Yakalama.wav"))
                     print(self.Skor)
 
-                if self.Skor % 5 == 0 and self.Skor > 0:
-                    self.MinHız += 1
+                if self.Skor % 5 == 0 and self.Skor > 0: # burada 0 yerine bir eşik tanımlarsanız ışık hızına çıkmazlar and self.Skor > self.Eşik
+                    self.MinHız += 4 + DusKare.Hız
                     self.MaxHız += 1
+                    # aynı zamanda her skor arttırma sonucunda self.Eşik += 5 olursa sorun çözülür
 
             if self.Skor < -5:
                 self.Durum = "GameOver"
