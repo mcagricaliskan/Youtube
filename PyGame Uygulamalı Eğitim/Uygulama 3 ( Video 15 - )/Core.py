@@ -18,7 +18,6 @@ class GameCore:
 
         self.Clock = pygame.time.Clock()
 
-
     def Draw(self):
 
         self.Current_Level.Draw(self.window)
@@ -33,8 +32,6 @@ class GameCore:
             self.Current_Level = TestLevelNight(self.windows_width, self.windows_height)
 
         self.level_lock = None
-
-
 
     def GameLoop(self):
 
@@ -54,7 +51,6 @@ class GameCore:
             self.level_update()
 
         self.Draw()
-
 
 
 Game = GameCore()
