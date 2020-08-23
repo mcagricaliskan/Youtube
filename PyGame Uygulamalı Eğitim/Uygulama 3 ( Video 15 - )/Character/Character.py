@@ -1,270 +1,268 @@
 import pygame
 import json
 
+
 class Character:
     def __init__(self):
-        self.C_X = 500
-        self.C_Y = 500
+        self.x = 200
+        self.y = 700
+        self.hp = 100
 
+        self.save_dict = {}
+        self.load()
 
-        self.Character_Load_Files()
+        """
+        self.C_Dictionary init olarak tanımlanmadığı için
+        eğer character_data.txt adında bir text yok ise
+        çalıştırdığınızda hata verebilir.
+        Daha düzgün bir ayarlama ilerleyen videolarda
+        gerçekleştirilecektir."""
 
-        self.C_HP = 100
+        self.gold = self.save_dict["Gold"]
 
-        # self.C_Dictionary init olarak tanımlanmadığı için
-        # eğer character_data.txt adında bir text yok ise
-        # çalıştırdığınızda hata verebilir.
-        # Daha düzgün bir ayarlama ilerleyen videolarda
-        # gerçekleştirilecektir.
+        self.scale = (200, 148)
+        self.status = "idle"
+        self.time = pygame.time.get_ticks()
+        self.direction = False
+        self.speed = 5
 
-        self.C_Gold = self.C_Dictionary["Gold"]
+        self.sprite_path = "Character/Character_Data/Sprite/"
 
-        self.C_Scale = (200, 148)
-        self.C_Status = "idle"
-        self.C_Time = pygame.time.get_ticks()
-        self.C_Direction = False
-        self.C_Speed = 5
-
-        self.C_Sprite_path = "Character/Character_Data/Sprite/"
-
-        self.C_Action_Mode = False
-        self.C_Animation = False
+        self.action_mode = False
+        self.animation_mode = False
 
         ###### idle #######
-        self.C_idle_1 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-00.png").convert_alpha()
-        self.C_idle_2 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-01.png").convert_alpha()
-        self.C_idle_3 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-02.png").convert_alpha()
-        self.C_idle_Animation = 0
-        self.C_idle_1 = pygame.transform.scale(self.C_idle_1, self.C_Scale)
-        self.C_idle_2 = pygame.transform.scale(self.C_idle_2, self.C_Scale)
-        self.C_idle_3 = pygame.transform.scale(self.C_idle_3, self.C_Scale)
-        self.C_idle_delay = 250
+        self.idle_1 = pygame.image.load(self.sprite_path + "adventurer-idle-00.png").convert_alpha()
+        self.idle_2 = pygame.image.load(self.sprite_path + "adventurer-idle-01.png").convert_alpha()
+        self.idle_3 = pygame.image.load(self.sprite_path + "adventurer-idle-02.png").convert_alpha()
+        self.idle_animation_counter = 0
+        self.idle_1 = pygame.transform.scale(self.idle_1, self.scale)
+        self.idle_2 = pygame.transform.scale(self.idle_2, self.scale)
+        self.idle_3 = pygame.transform.scale(self.idle_3, self.scale)
+        self.idle_delay = 250
 
-        self.C_idle_List = [
-            self.C_idle_1,
-            self.C_idle_2,
-            self.C_idle_3
+        self.idle_list = [
+            self.idle_1,
+            self.idle_2,
+            self.idle_3
         ]
 
         ######## idle with sword ########
+        self.idle_sword_1 = pygame.image.load(self.sprite_path + "adventurer-idle-2-00.png").convert_alpha()
+        self.idle_sword_2 = pygame.image.load(self.sprite_path + "adventurer-idle-2-01.png").convert_alpha()
+        self.idle_sword_3 = pygame.image.load(self.sprite_path + "adventurer-idle-2-02.png").convert_alpha()
+        self.idle_sword_4 = pygame.image.load(self.sprite_path + "adventurer-idle-2-03.png").convert_alpha()
+        self.idle_sword_animation_counter = 0
+        self.idle_sword_1 = pygame.transform.scale(self.idle_sword_1, self.scale)
+        self.idle_sword_2 = pygame.transform.scale(self.idle_sword_2, self.scale)
+        self.idle_sword_3 = pygame.transform.scale(self.idle_sword_3, self.scale)
+        self.idle_sword_4 = pygame.transform.scale(self.idle_sword_4, self.scale)
+        self.idle_sword_delay = 250
 
-        self.C_idle_sword_1 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-2-00.png").convert_alpha()
-        self.C_idle_sword_2 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-2-01.png").convert_alpha()
-        self.C_idle_sword_3 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-2-02.png").convert_alpha()
-        self.C_idle_sword_4 = pygame.image.load(self.C_Sprite_path + "adventurer-idle-2-03.png").convert_alpha()
-        self.C_idle_sword_Animation = 0
-        self.C_idle_sword_1 = pygame.transform.scale(self.C_idle_sword_1, self.C_Scale)
-        self.C_idle_sword_2 = pygame.transform.scale(self.C_idle_sword_2, self.C_Scale)
-        self.C_idle_sword_3 = pygame.transform.scale(self.C_idle_sword_3, self.C_Scale)
-        self.C_idle_sword_4 = pygame.transform.scale(self.C_idle_sword_4, self.C_Scale)
-        self.C_idle_sword_delay = 250
-
-        self.C_idle_sword_List = [
-            self.C_idle_sword_1,
-            self.C_idle_sword_2,
-            self.C_idle_sword_3,
-            self.C_idle_sword_4
+        self.idle_sword_list = [
+            self.idle_sword_1,
+            self.idle_sword_2,
+            self.idle_sword_3,
+            self.idle_sword_4
         ]
 
         ######## RUN ###########
+        self.run_1 = pygame.image.load(self.sprite_path + "adventurer-run-00.png")
+        self.run_2 = pygame.image.load(self.sprite_path + "adventurer-run-01.png")
+        self.run_3 = pygame.image.load(self.sprite_path + "adventurer-run-02.png")
+        self.run_4 = pygame.image.load(self.sprite_path + "adventurer-run-03.png")
+        self.run_5 = pygame.image.load(self.sprite_path + "adventurer-run-04.png")
+        self.run_6 = pygame.image.load(self.sprite_path + "adventurer-run-05.png")
+        self.run_animation_counter = 0
+        self.run_1 = pygame.transform.scale(self.run_1, self.scale)
+        self.run_2 = pygame.transform.scale(self.run_2, self.scale)
+        self.run_3 = pygame.transform.scale(self.run_3, self.scale)
+        self.run_4 = pygame.transform.scale(self.run_4, self.scale)
+        self.run_5 = pygame.transform.scale(self.run_5, self.scale)
+        self.run_6 = pygame.transform.scale(self.run_6, self.scale)
+        self.run_delay = 250
 
-        self.C_run_1 = pygame.image.load(self.C_Sprite_path + "adventurer-run-00.png")
-        self.C_run_2 = pygame.image.load(self.C_Sprite_path + "adventurer-run-01.png")
-        self.C_run_3 = pygame.image.load(self.C_Sprite_path + "adventurer-run-02.png")
-        self.C_run_4 = pygame.image.load(self.C_Sprite_path + "adventurer-run-03.png")
-        self.C_run_5 = pygame.image.load(self.C_Sprite_path + "adventurer-run-04.png")
-        self.C_run_6 = pygame.image.load(self.C_Sprite_path + "adventurer-run-05.png")
-        self.C_run_Animation = 0
-        self.C_run_1 = pygame.transform.scale(self.C_run_1, self.C_Scale)
-        self.C_run_2 = pygame.transform.scale(self.C_run_2, self.C_Scale)
-        self.C_run_3 = pygame.transform.scale(self.C_run_3, self.C_Scale)
-        self.C_run_4 = pygame.transform.scale(self.C_run_4, self.C_Scale)
-        self.C_run_5 = pygame.transform.scale(self.C_run_5, self.C_Scale)
-        self.C_run_6 = pygame.transform.scale(self.C_run_6, self.C_Scale)
-        self.C_run_delay = 250
-
-        self.C_run_List = [
-            self.C_run_1,
-            self.C_run_2,
-            self.C_run_3,
-            self.C_run_4,
-            self.C_run_5,
-            self.C_run_6
+        self.run_list = [
+            self.run_1,
+            self.run_2,
+            self.run_3,
+            self.run_4,
+            self.run_5,
+            self.run_6
         ]
 
-        self.C_draw_sword_1 = pygame.image.load(self.C_Sprite_path + "adventurer-swrd-drw-00.png").convert_alpha()
-        self.C_draw_sword_2 = pygame.image.load(self.C_Sprite_path + "adventurer-swrd-drw-01.png").convert_alpha()
-        self.C_draw_sword_3 = pygame.image.load(self.C_Sprite_path + "adventurer-swrd-drw-02.png").convert_alpha()
-        self.C_draw_sword_4 = pygame.image.load(self.C_Sprite_path + "adventurer-swrd-drw-03.png").convert_alpha()
-        self.C_draw_sword_Animation = 0
-        self.C_draw_sword_1 = pygame.transform.scale(self.C_draw_sword_1, self.C_Scale)
-        self.C_draw_sword_2 = pygame.transform.scale(self.C_draw_sword_2, self.C_Scale)
-        self.C_draw_sword_3 = pygame.transform.scale(self.C_draw_sword_3, self.C_Scale)
-        self.C_draw_sword_4 = pygame.transform.scale(self.C_draw_sword_4, self.C_Scale)
-        self.C_draw_sword_delay = 50
+        self.draw_sword_1 = pygame.image.load(self.sprite_path + "adventurer-swrd-drw-00.png").convert_alpha()
+        self.draw_sword_2 = pygame.image.load(self.sprite_path + "adventurer-swrd-drw-01.png").convert_alpha()
+        self.draw_sword_3 = pygame.image.load(self.sprite_path + "adventurer-swrd-drw-02.png").convert_alpha()
+        self.draw_sword_4 = pygame.image.load(self.sprite_path + "adventurer-swrd-drw-03.png").convert_alpha()
+        self.draw_sword_animation_counter = 0
+        self.draw_sword_1 = pygame.transform.scale(self.draw_sword_1, self.scale)
+        self.draw_sword_2 = pygame.transform.scale(self.draw_sword_2, self.scale)
+        self.draw_sword_3 = pygame.transform.scale(self.draw_sword_3, self.scale)
+        self.draw_sword_4 = pygame.transform.scale(self.draw_sword_4, self.scale)
+        self.draw_sword_delay = 50
 
-        self.C_draw_sword_List = [
-            self.C_draw_sword_1,
-            self.C_draw_sword_2,
-            self.C_draw_sword_3,
-            self.C_draw_sword_4,
+        self.draw_sword_list = [
+            self.draw_sword_1,
+            self.draw_sword_2,
+            self.draw_sword_3,
+            self.draw_sword_4,
         ]
 
-        self.C_draw_sword_back_List = [
-            self.C_draw_sword_4,
-            self.C_draw_sword_3,
-            self.C_draw_sword_2,
-            self.C_draw_sword_1,
+        self.draw_sword_back_List = [
+            self.draw_sword_4,
+            self.draw_sword_3,
+            self.draw_sword_2,
+            self.draw_sword_1,
         ]
 
-        self.C_attack_one_1 = pygame.image.load(self.C_Sprite_path + "adventurer-attack1-00.png").convert_alpha()
-        self.C_attack_one_2 = pygame.image.load(self.C_Sprite_path + "adventurer-attack1-01.png").convert_alpha()
-        self.C_attack_one_3 = pygame.image.load(self.C_Sprite_path + "adventurer-attack1-02.png").convert_alpha()
-        self.C_attack_one_4 = pygame.image.load(self.C_Sprite_path + "adventurer-attack1-03.png").convert_alpha()
-        self.C_attack_one_5 = pygame.image.load(self.C_Sprite_path + "adventurer-attack1-04.png").convert_alpha()
-        self.C_attack_one_Animation = 0
-        self.C_attack_one_1 = pygame.transform.scale(self.C_attack_one_1, self.C_Scale)
-        self.C_attack_one_2 = pygame.transform.scale(self.C_attack_one_2, self.C_Scale)
-        self.C_attack_one_3 = pygame.transform.scale(self.C_attack_one_3, self.C_Scale)
-        self.C_attack_one_4 = pygame.transform.scale(self.C_attack_one_4, self.C_Scale)
-        self.C_attack_one_5 = pygame.transform.scale(self.C_attack_one_5, self.C_Scale)
-        self.C_attack_one_delay = 50
+        self.attack_one_1 = pygame.image.load(self.sprite_path + "adventurer-attack1-00.png").convert_alpha()
+        self.attack_one_2 = pygame.image.load(self.sprite_path + "adventurer-attack1-01.png").convert_alpha()
+        self.attack_one_3 = pygame.image.load(self.sprite_path + "adventurer-attack1-02.png").convert_alpha()
+        self.attack_one_4 = pygame.image.load(self.sprite_path + "adventurer-attack1-03.png").convert_alpha()
+        self.attack_one_5 = pygame.image.load(self.sprite_path + "adventurer-attack1-04.png").convert_alpha()
+        self.attack_one_animation_counter = 0
+        self.attack_one_1 = pygame.transform.scale(self.attack_one_1, self.scale)
+        self.attack_one_2 = pygame.transform.scale(self.attack_one_2, self.scale)
+        self.attack_one_3 = pygame.transform.scale(self.attack_one_3, self.scale)
+        self.attack_one_4 = pygame.transform.scale(self.attack_one_4, self.scale)
+        self.attack_one_5 = pygame.transform.scale(self.attack_one_5, self.scale)
+        self.attack_one_delay = 50
 
-        self.C_attack_one_List = [
-            self.C_attack_one_1,
-            self.C_attack_one_2,
-            self.C_attack_one_3,
-            self.C_attack_one_4,
-            self.C_attack_one_5
+        self.attack_one_list = [
+            self.attack_one_1,
+            self.attack_one_2,
+            self.attack_one_3,
+            self.attack_one_4,
+            self.attack_one_5
         ]
 
-
-
-
-    def Character_Save_Files(self):
-        self.C_Dictionary = {
-            "Gold" : self.C_Gold
+    def save(self):
+        self.save_dict = {
+            "Gold" : self.gold
         }
 
-        json.dump(self.C_Dictionary, open("Character/Character_Data.txt", "w"))
+        json.dump(self.save_dict, open("Character/Character_Data.txt", "w"))
 
-    def Character_Load_Files(self):
+    def load(self):
 
-        self.C_Dictionary = json.load(open("Character/Character_Data.txt"))
+        self.save_dict = json.load(open("Character/Character_Data.txt"))
 
+    def draw(self,window):
 
+        if self.status == "idle":
+            window.blit(pygame.transform.flip(self.idle_list[self.idle_animation_counter], self.direction, False),
+                        (self.x, self.y))
+        elif self.status == "idle_sword":
+            window.blit(pygame.transform.flip(self.idle_sword_list[self.idle_sword_animation_counter], self.direction, False),
+                        (self.x, self.y))
+        elif self.status == "Run":
+            window.blit(pygame.transform.flip(self.run_list[self.run_animation_counter], self.direction, False),
+                        (self.x, self.y))
+        elif self.status == "draw_sword":
+            window.blit(pygame.transform.flip(self.draw_sword_list[self.draw_sword_animation_counter],
+                                              self.direction, False), (self.x, self.y))
+        elif self.status == "draw_sword_back":
+            window.blit(pygame.transform.flip(self.draw_sword_back_List[self.draw_sword_animation_counter],
+                                              self.direction, False), (self.x, self.y))
+        elif self.status == "attack_one":
+            window.blit(pygame.transform.flip(self.attack_one_list[self.attack_one_animation_counter],
+                                              self.direction, False), (self.x, self.y))
 
-    def Draw(self,window):
+        # pygame.draw.rect(window, (255, 0, 0), (self.x + 65, self.y + 25, 67, 120), 3)
 
-        if self.C_Status == "idle":
-            window.blit(pygame.transform.flip(self.C_idle_List[self.C_idle_Animation], self.C_Direction, False),
-                        (self.C_X, self.C_Y))
-        elif self.C_Status == "idle_sword":
-            window.blit(pygame.transform.flip(self.C_idle_sword_List[self.C_idle_sword_Animation], self.C_Direction, False),
-                        (self.C_X, self.C_Y))
-        elif self.C_Status == "Run":
-            window.blit(pygame.transform.flip(self.C_run_List[self.C_run_Animation], self.C_Direction, False),
-                        (self.C_X, self.C_Y))
-        elif self.C_Status == "draw_sword":
-            window.blit(pygame.transform.flip(self.C_draw_sword_List[self.C_draw_sword_Animation],
-                                              self.C_Direction, False), (self.C_X, self.C_Y))
-        elif self.C_Status == "draw_sword_back":
-            window.blit(pygame.transform.flip(self.C_draw_sword_back_List[self.C_draw_sword_Animation],
-                                              self.C_Direction, False), (self.C_X, self.C_Y))
-        elif self.C_Status == "attack_one":
-            window.blit(pygame.transform.flip(self.C_attack_one_List[self.C_attack_one_Animation],
-                                              self.C_Direction, False), (self.C_X, self.C_Y))
-
-
-
-    def Animation(self, Delay, animation_Number, limit_of_the_animation, condition=False,
+    def animation(self, Delay, animation_Number, limit_of_the_animation, condition=False,
                   action_mode_end=False, status_mode_end="idle"):
-        if pygame.time.get_ticks() - self.C_Time > Delay:
+        if pygame.time.get_ticks() - self.time > Delay:
             animation_Number += 1
             if animation_Number == limit_of_the_animation:
                 animation_Number = 0
 
                 if condition:
-                    self.C_Action_Mode = action_mode_end
-                    self.C_Status = status_mode_end
-                    self.C_Animation = False
+                    self.action_mode = action_mode_end
+                    self.status = status_mode_end
+                    self.animation_mode = False
 
 
-            self.C_Time = pygame.time.get_ticks()
+            self.time = pygame.time.get_ticks()
         return animation_Number
 
-    def GameLoop(self, Key, Mouse):
+    def game_loop(self, Key, Mouse):
+
         self.Key = Key
         self.Mouse = Mouse
 
         if self.Key[pygame.K_d]:
-            self.C_Status = "Run"
-            self.C_Direction = False
-            self.C_X += self.C_Speed
+            self.status = "Run"
+            self.direction = False
+            self.x += self.speed
         elif self.Key[pygame.K_a]:
-            self.C_Status = "Run"
-            self.C_Direction = True
-            self.C_X -= self.C_Speed
+            self.status = "Run"
+            self.direction = True
+            self.x -= self.speed
 
         elif self.Key[pygame.K_j]:
             self.Character_Save_Files()
 
         elif self.Key[pygame.K_r]:
-            if self.C_Action_Mode == False:
-                self.C_Status = "draw_sword"
-                self.C_Animation = True
-            elif self.C_Action_Mode == True:
-                self.C_Status = "draw_sword_back"
-                self.C_Animation = True
+            if not self.action_mode:
+                self.status = "draw_sword"
+                self.animation_mode = True
+            elif self.action_mode:
+                self.status = "draw_sword_back"
+                self.animation_mode = True
 
         elif self.Mouse[0] == 1:
-            self.C_Status = "attack_one"
-            self.C_Animation = True
+            self.status = "attack_one"
+            self.animation_mode = True
 
         else:
-            if self.C_Animation == False:
-                if self.C_Action_Mode == True:
-                    self.C_Status = "idle_sword"
+            if not self.animation_mode:
+                if self.action_mode:
+                    self.status = "idle_sword"
                 else:
-                    self.C_Status = "idle"
+                    self.status = "idle"
 
 
 
         ######## Animation #########
-        if self.C_Action_Mode == False:
-            if self.C_Status == "idle":
-                self.C_idle_Animation = self.Animation(self.C_idle_delay,
-                                                       self.C_idle_Animation, 3)
+        if not self.action_mode:
+            if self.status == "idle":
+                self.idle_animation_counter = self.animation(self.idle_delay,
+                                                             self.idle_animation_counter, 3)
 
-            elif self.C_Status == "Run":
-                self.C_run_Animation = self.Animation(self.C_run_delay,
-                                                      self.C_run_Animation, 6)
+            elif self.status == "Run":
+                self.run_animation_counter = self.animation(self.run_delay,
+                                                            self.run_animation_counter, 6)
 
-            elif self.C_Status == "draw_sword":
-                self.C_draw_sword_Animation = self.Animation(self.C_draw_sword_delay,
-                                                             self.C_draw_sword_Animation,
-                                                             4, self.C_Animation, True, "idle_sword")
+            elif self.status == "draw_sword":
+                self.draw_sword_animation_counter = self.animation(self.draw_sword_delay,
+                                                                   self.draw_sword_animation_counter,
+                                                                   4, self.animation_mode, True, "idle_sword")
 
-            elif self.C_Status == "attack_one":
-                self.C_attack_one_Animation = self.Animation(self.C_attack_one_delay,
-                                                             self.C_attack_one_Animation,
-                                                             5, self.C_Animation, True, "idle_sword")
+            elif self.status == "attack_one":
+                self.attack_one_animation_counter = self.animation(self.attack_one_delay,
+                                                                   self.attack_one_animation_counter,
+                                                                   5, self.animation_mode, True, "idle_sword")
 
-        elif self.C_Action_Mode == True:
-            if self.C_Status == "idle_sword":
-                self.C_idle_sword_Animation = self.Animation(self.C_idle_sword_delay,
-                                                             self.C_idle_sword_Animation,
-                                                             4)
-            elif self.C_Status == "Run":
-                self.C_run_Animation = self.Animation(self.C_run_delay,
-                                                      self.C_run_Animation, 6)
+        elif self.action_mode:
+            if self.status == "idle_sword":
+                self.idle_sword_animation_counter = self.animation(self.idle_sword_delay,
+                                                                   self.idle_sword_animation_counter,
+                                                                   4)
+            elif self.status == "Run":
+                self.run_animation_counter = self.animation(self.run_delay,
+                                                            self.run_animation_counter, 6)
 
-            elif self.C_Status == "draw_sword_back":
-                self.C_draw_sword_Animation = self.Animation(self.C_draw_sword_delay,
-                                                             self.C_draw_sword_Animation,
-                                                             4, self.C_Animation, False, "idle")
+            elif self.status == "draw_sword_back":
+                self.draw_sword_animation_counter = self.animation(self.draw_sword_delay,
+                                                                   self.draw_sword_animation_counter,
+                                                                   4, self.animation_mode, False, "idle")
 
-            elif self.C_Status == "attack_one":
-                self.C_attack_one_Animation = self.Animation(self.C_attack_one_delay,
-                                                             self.C_attack_one_Animation,
-                                                             5, self.C_Animation, True, "idle_sword")
+            elif self.status == "attack_one":
+                self.attack_one_animation_counter = self.animation(self.attack_one_delay,
+                                                                   self.attack_one_animation_counter,
+                                                                   5, self.animation_mode, True, "idle_sword")
+
+    def get_rect(self):
+        return pygame.Rect(self.x + 65, self.y + 25, 67, 120)

@@ -10,8 +10,8 @@ class TestLevelNight:
 
     def Draw(self,window):
         window.blit(self.Test_BackGround, (0, 0))
-        self.Character.Draw(window)
+        self.Character.draw(window)
 
     def GameLoop(self, Key, Mouse):
 
-        self.Character.GameLoop(Key, Mouse)
+        self.Character.game_loop(Key, Mouse)
