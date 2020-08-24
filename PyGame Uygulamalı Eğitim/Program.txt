@@ -1,6 +1,5 @@
 Kare Yakalam
 
-
 - Yukarıdan Düşen kareleri Yakalar.
 - Yakalanan kareler puanlar ekler.
 - Yakalanamayan Kareler Puan Düşürür.
@@ -8,17 +7,26 @@ Kare Yakalam
 - Game Start Menüsü ve Butonlar
 - Game Over Menüsü ve Replay
 - Ekrana Skor Yazdırma
-
-- Belirli puanlarda kare hızı artmalı!?!
+- Belirli puanlarda kare hızı artmalı ?!?
 - Yakaladığında Ses Çıkartma.
+
 
 FlapyBird
 
-
 - Maskeleme
+- Yer Çekimi
 
 
-ZombieShooter
+Şövalye Osman
 
-- Üstten Bakışlı Zombi Öldürme oyunu
-- Silah ve Mermi.
+- Karakter
+- Animasyon
+- Level Harita Sistemi
+- Dosya Hiyerarşisi
+- Pep8
+
+- Harita yaratmak
+- Yer Çekimi
+- Düşmanlar
+- Menü
+- Inventory
