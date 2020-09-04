@@ -1,7 +1,6 @@
 import pygame
 import sys
-from Levels.Test_Level import TestLevel
-from Levels.Test_Level_Night import TestLevelNight
+from levels.scripts.alpha import *
 sys.path.append("/")
 
 
@@ -15,25 +14,26 @@ class Core:
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         pygame.display.set_caption("Şövalye Osman")
 
-        self.level_lock = "Test_Level"
+        self.level_name = "alpha"
+        self.level = Alpha(self.window_width, self.window_height, self.level_name)
         self.level_update()
 
+        self.key = None
+        self.mouse = None
         self.game_clock = pygame.time.Clock()
 
     def draw(self):
 
-        self.current_level.draw(self.window)
+        self.level.draw(self.window)
         self.game_clock.tick(60)
         pygame.display.update()
 
     def level_update(self):
 
-        if self.level_lock == "Test_Level":
-            self.current_level = TestLevel(self.window_width, self.window_height)
-        elif self.level_lock == "Test_Level_Night":
-            self.current_level = TestLevelNight(self.window_width, self.window_height)
+        if self.level_name == "alpha":
+            self.level = Alpha(self.window_width, self.window_height, self.level_name)
 
-        self.level_lock = None
+        self.level_name = None
 
     def game_loop(self):
 
@@ -47,9 +47,9 @@ class Core:
 
         self.mouse = pygame.mouse.get_pressed()
 
-        self.level_lock = self.current_level.game_loop(self.key, self.mouse)
+        self.level_name = self.level.game_loop(self.key, self.mouse)
 
-        if self.level_lock is not None:
+        if self.level_name is not None:
             self.level_update()
 
         self.draw()

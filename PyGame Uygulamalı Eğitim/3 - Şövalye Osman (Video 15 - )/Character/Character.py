@@ -5,33 +5,25 @@ import json
 class Character:
     def __init__(self):
         self.x = 200
-        self.y = 700
+        self.y = 500
         self.hp = 100
-
-        self.save_dict = {}
-        self.load()
-
-        """
-        self.C_Dictionary init olarak tanımlanmadığı için
-        eğer character_data.txt adında bir text yok ise
-        çalıştırdığınızda hata verebilir.
-        Daha düzgün bir ayarlama ilerleyen videolarda
-        gerçekleştirilecektir."""
-
-        self.gold = self.save_dict["Gold"]
-
-        self.scale = (200, 148)
-        self.status = "idle"
-        self.time = pygame.time.get_ticks()
-        self.direction = False
+        self.gold = 0
         self.speed = 5
-
-        self.sprite_path = "Character/Character_Data/Sprite/"
-
+        self.status = "idle"
+        self.sprite_path = "character/data/sprites/"
+        self.direction = False
         self.action_mode = False
         self.animation_mode = False
+        self.key = None
+        self.mouse = None
+        self.scale = (200, 148)
+        self.player_data = {}
 
-        ###### idle #######
+        self.load()
+
+        self.time = pygame.time.get_ticks()
+
+        # idle
         self.idle_1 = pygame.image.load(self.sprite_path + "adventurer-idle-00.png").convert_alpha()
         self.idle_2 = pygame.image.load(self.sprite_path + "adventurer-idle-01.png").convert_alpha()
         self.idle_3 = pygame.image.load(self.sprite_path + "adventurer-idle-02.png").convert_alpha()
@@ -138,17 +130,18 @@ class Character:
         ]
 
     def save(self):
-        self.save_dict = {
+        self.player_data = {
             "Gold" : self.gold
         }
 
-        json.dump(self.save_dict, open("Character/Character_Data.txt", "w"))
+        json.dump(self.player_data, open("character/player_data.txt", "w"))
 
     def load(self):
 
-        self.save_dict = json.load(open("Character/Character_Data.txt"))
+        self.player_data = json.load(open("character/player_data.txt"))
+        self.gold = self.player_data["Gold"]
 
-    def draw(self,window):
+    def draw(self, window):
 
         if self.status == "idle":
             window.blit(pygame.transform.flip(self.idle_list[self.idle_animation_counter], self.direction, False),
@@ -171,40 +164,39 @@ class Character:
 
         # pygame.draw.rect(window, (255, 0, 0), (self.x + 65, self.y + 25, 67, 120), 3)
 
-    def animation(self, Delay, animation_Number, limit_of_the_animation, condition=False,
+    def animation(self, delay, animation_number, limit_of_the_animation, condition=False,
                   action_mode_end=False, status_mode_end="idle"):
-        if pygame.time.get_ticks() - self.time > Delay:
-            animation_Number += 1
-            if animation_Number == limit_of_the_animation:
-                animation_Number = 0
+        if pygame.time.get_ticks() - self.time > delay:
+            animation_number += 1
+            if animation_number == limit_of_the_animation:
+                animation_number = 0
 
                 if condition:
                     self.action_mode = action_mode_end
                     self.status = status_mode_end
                     self.animation_mode = False
 
-
             self.time = pygame.time.get_ticks()
-        return animation_Number
+        return animation_number
 
-    def game_loop(self, Key, Mouse):
+    def game_loop(self, key, mouse):
 
-        self.Key = Key
-        self.Mouse = Mouse
+        self.key = key
+        self.mouse = mouse
 
-        if self.Key[pygame.K_d]:
+        if self.key[pygame.K_d]:
             self.status = "Run"
             self.direction = False
             self.x += self.speed
-        elif self.Key[pygame.K_a]:
+        elif self.key[pygame.K_a]:
             self.status = "Run"
             self.direction = True
             self.x -= self.speed
 
-        elif self.Key[pygame.K_j]:
+        elif self.key[pygame.K_j]:
             self.Character_Save_Files()
 
-        elif self.Key[pygame.K_r]:
+        elif self.key[pygame.K_r]:
             if not self.action_mode:
                 self.status = "draw_sword"
                 self.animation_mode = True
@@ -212,7 +204,7 @@ class Character:
                 self.status = "draw_sword_back"
                 self.animation_mode = True
 
-        elif self.Mouse[0] == 1:
+        elif self.mouse[0] == 1:
             self.status = "attack_one"
             self.animation_mode = True
 
@@ -223,9 +215,7 @@ class Character:
                 else:
                     self.status = "idle"
 
-
-
-        ######## Animation #########
+        # Animation
         if not self.action_mode:
             if self.status == "idle":
                 self.idle_animation_counter = self.animation(self.idle_delay,
