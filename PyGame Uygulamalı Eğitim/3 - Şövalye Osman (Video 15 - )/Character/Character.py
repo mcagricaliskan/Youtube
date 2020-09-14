@@ -5,7 +5,7 @@ import json
 class Character:
     def __init__(self):
         self.x = 200
-        self.y = 500
+        self.y = 700
         self.hp = 100
         self.gold = 0
         self.speed = 5
@@ -17,11 +17,9 @@ class Character:
         self.key = None
         self.mouse = None
         self.scale = (200, 148)
-        self.player_data = {}
-
-        self.load()
-
+        self.save_dict = {}
         self.time = pygame.time.get_ticks()
+        self.load()
 
         # idle
         self.idle_1 = pygame.image.load(self.sprite_path + "adventurer-idle-00.png").convert_alpha()
@@ -39,7 +37,7 @@ class Character:
             self.idle_3
         ]
 
-        ######## idle with sword ########
+        # idle with sword
         self.idle_sword_1 = pygame.image.load(self.sprite_path + "adventurer-idle-2-00.png").convert_alpha()
         self.idle_sword_2 = pygame.image.load(self.sprite_path + "adventurer-idle-2-01.png").convert_alpha()
         self.idle_sword_3 = pygame.image.load(self.sprite_path + "adventurer-idle-2-02.png").convert_alpha()
@@ -58,7 +56,7 @@ class Character:
             self.idle_sword_4
         ]
 
-        ######## RUN ###########
+        # run
         self.run_1 = pygame.image.load(self.sprite_path + "adventurer-run-00.png")
         self.run_2 = pygame.image.load(self.sprite_path + "adventurer-run-01.png")
         self.run_3 = pygame.image.load(self.sprite_path + "adventurer-run-02.png")
@@ -130,16 +128,17 @@ class Character:
         ]
 
     def save(self):
-        self.player_data = {
+        self.save_dict = {
             "Gold" : self.gold
         }
 
-        json.dump(self.player_data, open("character/player_data.txt", "w"))
+        json.dump(self.save_dict, open("character/player_data.txt", "w"))
 
     def load(self):
 
-        self.player_data = json.load(open("character/player_data.txt"))
-        self.gold = self.player_data["Gold"]
+        self.save_dict = json.load(open("character/player_data.txt"))
+
+        self.gold = self.save_dict["Gold"]
 
     def draw(self, window):
 
@@ -215,7 +214,7 @@ class Character:
                 else:
                     self.status = "idle"
 
-        # Animation
+        # Animation #########
         if not self.action_mode:
             if self.status == "idle":
                 self.idle_animation_counter = self.animation(self.idle_delay,
